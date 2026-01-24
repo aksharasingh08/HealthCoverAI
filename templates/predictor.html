@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthCoverAI - Price Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Righteous&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-overlay"></div>
+    
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M25 5L30 15L40 17L32.5 25L35 35L25 30L15 35L17.5 25L10 17L20 15L25 5Z" fill="url(#gradient1)"/>
+                            <circle cx="25" cy="25" r="8" fill="url(#gradient2)"/>
+                            <defs>
+                                <linearGradient id="gradient1" x1="10" y1="5" x2="40" y2="35" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#06b6d4"/>
+                                    <stop offset="100%" stop-color="#4f46e5"/>
+                                </linearGradient>
+                                <linearGradient id="gradient2" x1="17" y1="17" x2="33" y2="33" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#ffffff"/>
+                                    <stop offset="100%" stop-color="#e0e7ff"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <h1 class="logo-text">
+                        <span class="logo-main">Health<span class="logo-cover">Cover</span></span>
+                        <span class="logo-ai-badge">
+                            <span class="logo-ai-text">AI</span>
+                            <span class="logo-ai-glow"></span>
+                        </span>
+                    </h1>
+                </div>
+            </div>
+            <a href="{{ url_for('home') }}" class="back-link">← Back to Home</a>
+        </header>
+
+        <main class="predictor-section">
+            <div class="predictor-card">
+                <h2 class="predictor-title">Insurance Price Predictor</h2>
+                <p class="predictor-subtitle">Fill in your details to get an estimated insurance cost</p>
+
+                <form class="predictor-form" id="insuranceForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <input type="number" id="age" name="age" min="18" max="100" value="25" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sex">Sex</label>
+                            <select id="sex" name="sex" required>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bmi">BMI</label>
+                            <input type="number" id="bmi" name="bmi" min="10" max="60" step="0.1" value="25.0" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="children">Number of Children</label>
+                            <input type="number" id="children" name="children" min="0" max="10" value="0" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="smoker">Smoker</label>
+                            <select id="smoker" name="smoker" required>
+                                <option value="no">No</option>
+                                <option value="yes">Yes</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="region">Region</label>
+                            <select id="region" name="region" required>
+                                <option value="northeast">Northeast</option>
+                                <option value="northwest">Northwest</option>
+                                <option value="southeast">Southeast</option>
+                                <option value="southwest">Southwest</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="predict-button" id="predictBtn">
+                        Predict Price 💸
+                    </button>
+                </form>
+
+                <div class="loading-box" id="loadingBox" style="display: none;">
+                    <div class="loading-content">
+                        <div class="spinner"></div>
+                        <p>Analyzing your data...</p>
+                    </div>
+                </div>
+
+                <div class="result-box" id="resultBox" style="display: none;">
+                    <div class="result-content">
+                        <span class="result-icon">💰</span>
+                        <p class="result-label">Estimated Insurance Cost</p>
+                        <p class="result-amount" id="resultAmount">$8,500</p>
+                    </div>
+                </div>
+
+                <div class="error-box" id="errorBox" style="display: none;">
+                    <div class="error-content">
+                        <span class="error-icon">⚠️</span>
+                        <p class="error-message" id="errorMessage">Error occurred</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Made with ❤️ for better health coverage</p>
+        </footer>
+    </div>
+
+    <script>
+        // Backend API URL - dynamically use current host
+        const API_URL = window.location.origin + '/predict';
+
+        // Check if backend is available
+        async function checkBackend() {
+            try {
+                const response = await fetch(window.location.origin + '/health');
+                const data = await response.json();
+                console.log('✅ Backend is running:', data);
+                return true;
+            } catch (error) {
+                console.error('❌ Backend is not running:', error);
+                return false;
+            }
+        }
+
+        // Form submission handler with real backend connection
+        document.getElementById('insuranceForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Hide previous results/errors
+            document.getElementById('resultBox').style.display = 'none';
+            document.getElementById('errorBox').style.display = 'none';
+            
+            // Show loading spinner
+            document.getElementById('loadingBox').style.display = 'block';
+            document.getElementById('predictBtn').disabled = true;
+            
+            // Get form values
+            const formData = {
+                age: parseInt(document.getElementById('age').value),
+                sex: document.getElementById('sex').value,
+                bmi: parseFloat(document.getElementById('bmi').value),
+                children: parseInt(document.getElementById('children').value),
+                smoker: document.getElementById('smoker').value,
+                region: document.getElementById('region').value
+            };
+            
+            console.log('Sending data to backend:', formData);
+            
+            try {
+                // Make API call to Flask backend
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                    mode: 'cors'
+                });
+                
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('Response data:', data);
+                
+                // Hide loading
+                document.getElementById('loadingBox').style.display = 'none';
+                document.getElementById('predictBtn').disabled = false;
+                
+                if (data.success) {
+                    // Display prediction result
+                    document.getElementById('resultAmount').textContent = 
+                        '$' + Math.round(data.predicted_cost).toLocaleString();
+                    document.getElementById('resultBox').style.display = 'block';
+                    document.getElementById('resultBox').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'nearest' 
+                    });
+                } else {
+                    // Display error
+                    document.getElementById('errorMessage').textContent = 
+                        data.error || 'Prediction failed';
+                    document.getElementById('errorBox').style.display = 'block';
+                }
+                
+            } catch (error) {
+                // Hide loading
+                document.getElementById('loadingBox').style.display = 'none';
+                document.getElementById('predictBtn').disabled = false;
+                
+                // Display detailed connection error
+                let errorMsg = '';
+                if (error.message.includes('Failed to fetch')) {
+                    errorMsg = '🚨 Cannot connect to Flask backend!<br><br>';
+                    errorMsg += '✅ Make sure you have:<br>';
+                    errorMsg += '1. Started Flask server: python app.py<br>';
+                    errorMsg += '2. Backend running on: http://localhost:5000<br>';
+                    errorMsg += '3. CORS enabled in Flask (flask-cors installed)<br><br>';
+                    errorMsg += '💡 Check terminal for Flask server logs';
+                } else if (error.message.includes('HTTP error')) {
+                    errorMsg = `Server error: ${error.message}<br><br>Check Flask terminal for error details.`;
+                } else {
+                    errorMsg = `Connection error: ${error.message}`;
+                }
+                
+                document.getElementById('errorMessage').innerHTML = errorMsg;
+                document.getElementById('errorBox').style.display = 'block';
+                console.error('❌ Full error:', error);
+            }
+        });
+
+        // Check backend status on page load
+        window.addEventListener('load', async function() {
+            const backendAvailable = await checkBackend();
+            if (!backendAvailable) {
+                console.warn('⚠️ Warning: Backend server is not responding. Please start Flask server.');
+            }
+        });
+    </script>
+</body>
+</html>
