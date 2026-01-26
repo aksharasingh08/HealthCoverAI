@@ -120,26 +120,6 @@ Health check endpoint:
 }
 ```
 
-## ❗ Troubleshooting
-
-### Issue: "Model not loaded" error
-**Solution:** Make sure `insurance_model.pkl` is in the same folder as `app.py`
-
-### Issue: "Cannot connect to server" error on website
-**Solution:** Make sure Flask backend is running (`python app.py`)
-
-### Issue: Port 5000 already in use
-**Solution:** Either:
-- Stop the other process using port 5000
-- Change the port in `app.py`: `app.run(debug=True, port=5001)`
-- Update the API URL in `predictor.html` to match
-
-### Issue: CORS error in browser console
-**Solution:** The flask-cors package should handle this. Make sure it's installed:
-```bash
-pip install flask-cors
-```
-
 ## 🎨 Features
 
 ✨ **Beautiful UI**
