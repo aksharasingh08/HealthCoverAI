@@ -24,13 +24,13 @@ The model takes the following inputs from the user:
 
 # Machine Learning Pipeline
 
-# Data Preprocessing
+Data Preprocessing:
 
 * Categorical features encoded using OneHotEncoder
 * Numerical features passed directly
 * Implemented using ColumnTransformer
 
-# Models Evaluated
+Models Evaluated:
 
 The following regression models were trained and evaluated:
 * Linear Regression
@@ -39,7 +39,7 @@ The following regression models were trained and evaluated:
 * Random Forest Regressor
 * Gradient Boosting Regressor
 
-Model Comparison Metrics
+Model Comparison Metrics:
 
 * MAE (Mean Absolute Error)
 * RMSE (Root Mean Squared Error)
@@ -83,20 +83,10 @@ Backend
 
 # Website screenshots
 
-Add **website screenshots** inside a folder named:
+Application Preview
+![Home Page](/homepage.png)
+![Prediction Result](predictions.png)
 
-```
-screenshots/
-```
-
-### Example:
-
-```md
-## 📸 Application Preview
-![Home Page](screenshots/homepage.png)
-![Prediction Result](screenshots/result.png)
-```
----
 
 # Tech Stack
 
