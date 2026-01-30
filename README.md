@@ -8,7 +8,6 @@ An end-to-end **Machine Learning web application** that predicts **health insura
 
 Health insurance premiums depend on multiple factors such as age, BMI, smoking habits, and region. This project aims to build a predictive system that estimates insurance charges accurately using machine learning regression models.
 
-
 # Input Features
 
 The model takes the following inputs from the user:
@@ -88,6 +87,7 @@ Application Preview
 ![Home Page](/homepage.png)
 
 Prediction Page
+
 ![Prediction Result](prediction.png)
 
 
