@@ -1,158 +1,111 @@
-# HealthCoverAI - Insurance Price Predictor 💰
-This project predicts health insurance costs using a machine learning model. It uses Flask as a backend API and a clean HTML/CSS frontend for user interaction.
-A web application for predicting health insurance costs using machine learning.
+# 🏥 Health Insurance Cost Prediction (ML Web App)
 
-## Project Structure
-
-```
-project/
-│
-├── index.html              # Landing page
-├── predictor.html          # Prediction form page
-├── styles.css              # All styling
-├── app.py                  # Flask backend server
-├── requirements.txt        # Python dependencies
-├── insurance_model.pkl     # Trained ML model 
-└── README.md              # This file
-```
-
-## Setup Instructions
-
-### Step 1: Install Python Dependencies
-
-Open your terminal in PyCharm and run:
-
-```bash
-pip install -r requirements.txt
-```
-
-This will install:
-- Flask (web server)
-- Flask-CORS (for frontend-backend communication)
-- pandas (data handling)
-- joblib (model loading)
-- scikit-learn (ML library). Model is trained using sickit learn 1.5.1 version.
-
-### Step 2: Add Your Trained Model
-
-**IMPORTANT:** Place your `insurance_model.pkl` file in the same directory as `app.py`
-
-The model file should be the one you created with:
-```python
-joblib.dump(model, "insurance_model.pkl")
-```
-
-### Step 3: Start the Flask Backend
-
-In your terminal, run:
-
-```bash
-python app.py
-```
-
-We should see:
-```
-🚀 Starting HealthCoverAI Backend Server...
-📊 Model Status: Loaded ✅
-🌐 Server running on http://localhost:5000
-```
-
-### Step 4: Open the Website
-
-Open `index.html` in your web browser:
-- **Option 1:** Double-click `index.html`
-- **Option 2:** Right-click in PyCharm → "Open in Browser"
-- **Option 3:** Go to `http://localhost:5000` in your browser
-
-## 🎯 How It Works
-
-1. **Landing Page (index.html):**
-   - Beautiful hero section with features
-   - Stats showing 88% accuracy and 24/7 availability
-   - "Start Prediction" button to navigate to predictor
-
-2. **Predictor Page (predictor.html):**
-   - Form with all insurance parameters (age, sex, BMI, children, smoker, region)
-   - Sends data to Flask backend when "Predict Price" is clicked
-   - Displays real prediction from my trained ML model
-   - Shows loading spinner while processing
-   - Error handling if backend is not running
-
-3. **Flask Backend (app.py):**
-   - Loads your trained model on startup
-   - Receives form data from frontend
-   - Makes prediction using the model
-   - Returns predicted insurance cost as JSON
-
-## 🔧 API Endpoints
-
-### `POST /predict`
-Accepts JSON data and returns prediction:
-
-**Request:**
-```json
-{
-  "age": 25,
-  "sex": "male",
-  "bmi": 25.0,
-  "children": 0,
-  "smoker": "no",
-  "region": "northeast"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "predicted_cost": 3756.45
-}
-```
-
-### `GET /health`
-Health check endpoint:
-
-**Response:**
-```json
-{
-  "status": "running",
-  "model_loaded": true
-}
-```
-
-## 🎨 Features
-
-✨ **Beautiful UI**
-- Modern gradient design
-- Smooth animations
-- Fully responsive (mobile-friendly)
-- Medical-themed background
-
-⚡ **Real-time Predictions**
-- Loading spinner during prediction
-- Instant results display
-- Error handling
-
-🔒 **Secure**
-- Backend validation
-- No data stored
-- Local processing
-
-## 📝 Notes
-
-- The website connects to `http://localhost:5000` by default
-- Make sure both Flask backend and frontend are running
-- The model should accept the same features as your Streamlit app
-- Form validation prevents invalid inputs
-
-## 🤝 Support
-
-If you encounter any issues:
-1. Check that Flask is running
-2. Verify `insurance_model.pkl` exists
-3. Check browser console for errors (F12)
-4. Check Flask terminal for errors
+An end-to-end **Machine Learning web application** that predicts **health insurance costs** based on user demographics and lifestyle details. The project integrates **data preprocessing, model comparison, hyperparameter tuning**, and **deployment using Flask** with a clean **HTML/CSS frontend**, hosted on **Render**.
 
 ---
 
-Made with ❤️ for better health coverage
+# Problem Statement
+
+Health insurance premiums depend on multiple factors such as age, BMI, smoking habits, and region. This project aims to build a predictive system that estimates insurance charges accurately using machine learning regression models.
+
+
+# Input Features
+
+The model takes the following inputs from the user:
+
+* **Age**
+* **Sex** (Male/Female)
+* **BMI** (Body Mass Index)
+* **Number of Children**
+* **Smoker** (Yes/No)
+* **Region** (Northeast, Northwest, Southeast, Southwest)
+
+---
+
+# Machine Learning Pipeline
+
+# Data Preprocessing
+
+* Categorical features encoded using OneHotEncoder
+* Numerical features passed directly
+* Implemented using ColumnTransformer
+
+# Models Evaluated
+
+The following regression models were trained and evaluated:
+* Linear Regression
+* Ridge Regression
+* Lasso Regression
+* Random Forest Regressor
+* Gradient Boosting Regressor
+
+# Model Comparison Metrics
+
+* MAE (Mean Absolute Error)
+* RMSE (Root Mean Squared Error)
+* R² Score
+
+# Best Model
+
+* Random Forest Regressor (after hyperparameter tuning)
+* Hyperparameter tuning: GridSearchCV (5-fold CV)
+* **Test R² Score:** ~ **88%**
+
+---
+
+# Hyperparameter Tuning
+
+* Used **GridSearchCV**
+* Optimized parameters such as:
+  * `n_estimators`
+  * `max_depth`
+  * `min_samples_split`
+  * `min_samples_leaf`
+* Scoring metric: **R²**
+
+---
+
+# Web Application
+
+# Frontend
+
+* Built using HTML & CSS
+* Responsive and user-friendly UI
+* Input form for insurance-related details
+
+# Backend
+
+* Flask framework
+* Trained ML pipeline loaded using Pickle
+* Handles user input, preprocessing, and prediction
+
+---
+
+# Website screenshots
+
+Add **website screenshots** inside a folder named:
+
+```
+screenshots/
+```
+
+### Example:
+
+```md
+## 📸 Application Preview
+![Home Page](screenshots/homepage.png)
+![Prediction Result](screenshots/result.png)
+```
+---
+
+# Tech Stack
+
+* Python
+* **Pandas, NumPy
+* Scikit-learn**
+* Flask
+* HTML, CSS
+* Render (Deployment)
+---
+
+⭐ If you like this project, don’t forget to star the repository!
