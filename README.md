@@ -39,7 +39,7 @@ The following regression models were trained and evaluated:
 * Random Forest Regressor
 * Gradient Boosting Regressor
 
-# Model Comparison Metrics
+Model Comparison Metrics
 
 * MAE (Mean Absolute Error)
 * RMSE (Root Mean Squared Error)
@@ -67,13 +67,13 @@ The following regression models were trained and evaluated:
 
 # Web Application
 
-# Frontend
+Frontend
 
 * Built using HTML & CSS
 * Responsive and user-friendly UI
 * Input form for insurance-related details
 
-# Backend
+Backend
 
 * Flask framework
 * Trained ML pipeline loaded using Pickle
