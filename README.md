@@ -84,8 +84,11 @@ Backend
 # Website screenshots
 
 Application Preview
+
 ![Home Page](/homepage.png)
-![Prediction Result](predictions.png)
+
+Prediction Page
+![Prediction Result](prediction.png)
 
 
 # Tech Stack
