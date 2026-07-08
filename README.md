@@ -1,4 +1,4 @@
-# 🏥 Health Insurance Cost Prediction (ML Web App)
+# Health Insurance Cost Prediction (ML Web App)
 
 An end-to-end **Machine Learning web application** that predicts **health insurance costs** based on user demographics and lifestyle details. The project integrates **data preprocessing, model comparison, hyperparameter tuning**, and **deployment using Flask** with a clean **HTML/CSS frontend**, hosted on **Render**.
 
